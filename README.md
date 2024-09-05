@@ -1,7 +1,7 @@
 # Welcome to My Repository!
 hi! I'm Adil and I am excited to share this prooject with you. Here's a bit about me:
-<!-- !(https://github.com/user-attachments/assets/bb35a85a-c49e-4165-85e3-bcbafefcc4af)
--->
+![Alt text](https://github.com/username/repository/raw/main/path/to/image.png)
+
 ## About Me
 + **NAME**:Muammad Adil Saeed
 + **INTREST**: Data Science 
