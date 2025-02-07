@@ -5,7 +5,7 @@ Hi! I'm Adil and I am excited to share this project with you. Here's a bit about
 
 ## About Me
 + **NAME**:Muammad Adil Saeed
-+ **INTREST**: Data Science 
++ **INTREST**: Cyber Security, AI
 + **CONTACT**:k240705@nu.edu.pk
 ### What I Do
 + **Learner**: Doing Bacholer in Computer Science
