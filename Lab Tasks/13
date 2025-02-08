@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+int main() {
+    int n, sum = 0; // Initialize sum here
+    printf("Enter a number (up to three digits)\n");
+    scanf("%d", &n);
+    
+    if (n > 0 && n < 1000) { 
+        sum += n % 10;       
+        n = n / 10;          
+        sum += n % 10;       
+        n = n / 10;          
+        sum += n % 10;      
+        printf("Sum is %d\n", sum);
+    } else {
+        printf("Error: Please enter a positive number up to three digits.\n”);
+}
+    return 0;
+} 
