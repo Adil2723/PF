@@ -1,0 +1,65 @@
+#include <stdio.h>
+
+void horizontal_histogram_creator(int input) {
+	int i;
+    printf("%d: ", input);
+    for (i = 0; i < input; i++) {
+        printf("* ");
+    }
+    printf("\n");
+}
+
+void vertical_histogram_creator(int array[20], int len) {
+    int largest = -9999;
+    int i, j;
+
+    for (i = 0; i < len; i++) {
+        if (array[i] > largest) {
+            largest = array[i];
+        }
+    }
+
+    for (i = largest; i > 0; i--) {
+        for (j = 0; j < len; j++) {
+            if (array[j] >= i) {
+                printf("* ");
+            } else {
+                printf("  ");
+            }
+        }
+        printf("\n");
+    }
+
+    for (i = 0; i < len; i++) {
+        printf("%d ", array[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int num, arr[20], i;
+
+    printf("Please enter how many values you have (max 20): ");
+    scanf("%d", &num);
+
+    if (num > 20) {
+        printf("You can only enter up to 20 values.\n");
+        return 1;
+    }
+
+    for (i = 0; i < num; i++) {
+        printf("Please enter value %d: ", i + 1);
+        scanf("%d", &arr[i]);
+    }
+
+    printf("VERTICAL HISTOGRAM\n");
+    vertical_histogram_creator(arr, num);
+    printf("\n");
+    printf("HORIZONTAL HISTOGRAM\n");
+    for (i = 0; i < num; i++) {
+        horizontal_histogram_creator(arr[i]);
+    }
+
+    return 0;
+}
+
