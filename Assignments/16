@@ -1,0 +1,128 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define NUM_USERS 3
+#define NUM_CATEGORIES 3
+#define NUM_DEVICES 3
+#define NUM_CONTENT 3
+
+struct ContentMetadata {
+    char title[100];
+    float rating;
+    int runtime;
+    char encodingFormat[50];
+};
+
+struct DevicePreferences {
+    int resolution;
+    int playbackHistory;
+    int bandwidthUsage;
+};
+
+struct UserProfile {
+    double* engagementScores;
+    struct DevicePreferences** devicePreferences;
+};
+
+void initializeUserProfile(struct UserProfile* user, int numCategories, int numDevices) {
+    user->engagementScores = (double*)malloc(numCategories * sizeof(double));
+    user->devicePreferences = (struct DevicePreferences**)malloc(numDevices * sizeof(struct DevicePreferences*));
+
+    for (int i = 0; i < numCategories; i++) {
+        user->engagementScores[i] = 0.0;
+    }
+
+    for (int i = 0; i < numDevices; i++) {
+        user->devicePreferences[i] = (struct DevicePreferences*)malloc(sizeof(struct DevicePreferences));
+        user->devicePreferences[i]->resolution = 1080;
+        user->devicePreferences[i]->playbackHistory = 0;
+        user->devicePreferences[i]->bandwidthUsage = 0;
+    }
+}
+
+void updateUserEngagement(struct UserProfile* user, int categoryIndex, double score) {
+    user->engagementScores[categoryIndex] = score;
+}
+
+void displayUserProfile(struct UserProfile* user, int numCategories, int numDevices) {
+    printf("User Engagement Scores:\n");
+    for (int i = 0; i < numCategories; i++) {
+        printf("Category %d: %.2f\n", i, user->engagementScores[i]);
+    }
+
+    printf("User Device Preferences:\n");
+    for (int i = 0; i < numDevices; i++) {
+        printf("Device %d - Resolution: %dp, Playback History: %d minutes, Bandwidth Usage: %d MB\n", 
+            i, user->devicePreferences[i]->resolution, user->devicePreferences[i]->playbackHistory, user->devicePreferences[i]->bandwidthUsage);
+    }
+}
+
+void initializeContentMetadata(struct ContentMetadata*** contentMetadata, int numCategories, int numContent) {
+    *contentMetadata = (struct ContentMetadata**)malloc(numCategories * sizeof(struct ContentMetadata*));
+
+    for (int i = 0; i < numCategories; i++) {
+        (*contentMetadata)[i] = (struct ContentMetadata*)malloc(numContent * sizeof(struct ContentMetadata));
+
+        for (int j = 0; j < numContent; j++) {
+            snprintf((*contentMetadata)[i][j].title, sizeof((*contentMetadata)[i][j].title), "Content %d in Category %d", j + 1, i + 1);
+            (*contentMetadata)[i][j].rating = (float)(rand() % 5 + 1);
+            (*contentMetadata)[i][j].runtime = (rand() % 100 + 60);
+            snprintf((*contentMetadata)[i][j].encodingFormat, sizeof((*contentMetadata)[i][j].encodingFormat), "H.264");
+        }
+    }
+}
+
+void displayContentMetadata(struct ContentMetadata** contentMetadata, int categoryIndex, int numContent) {
+    printf("Content Metadata for Category %d:\n", categoryIndex + 1);
+    for (int i = 0; i < numContent; i++) {
+        printf("Title: %s, Rating: %.1f, Runtime: %d minutes, Encoding: %s\n",
+               contentMetadata[categoryIndex][i].title, contentMetadata[categoryIndex][i].rating,
+               contentMetadata[categoryIndex][i].runtime, contentMetadata[categoryIndex][i].encodingFormat);
+    }
+}
+
+int main() {
+    struct UserProfile* users[NUM_USERS];
+    struct ContentMetadata** contentMetadata;
+    double** engagementMatrix;
+
+    for (int i = 0; i < NUM_USERS; i++) {
+        users[i] = (struct UserProfile*)malloc(sizeof(struct UserProfile));
+        initializeUserProfile(users[i], NUM_CATEGORIES, NUM_DEVICES);
+    }
+
+    initializeContentMetadata(&contentMetadata, NUM_CATEGORIES, NUM_CONTENT);
+
+    engagementMatrix = (double**)malloc(NUM_USERS * sizeof(double*));
+    for (int i = 0; i < NUM_USERS; i++) {
+        engagementMatrix[i] = (double*)malloc(NUM_CATEGORIES * sizeof(double));
+    }
+
+    updateUserEngagement(users[0], 1, 3.5);
+    engagementMatrix[0][1] = 3.5;
+
+    displayUserProfile(users[0], NUM_CATEGORIES, NUM_DEVICES);
+    displayContentMetadata(contentMetadata, 1, NUM_CONTENT);
+
+    for (int i = 0; i < NUM_USERS; i++) {
+        free(users[i]->engagementScores);
+        for (int j = 0; j < NUM_DEVICES; j++) {
+            free(users[i]->devicePreferences[j]);
+        }
+        free(users[i]->devicePreferences);
+        free(users[i]);
+    }
+
+    for (int i = 0; i < NUM_CATEGORIES; i++) {
+        free(contentMetadata[i]);
+    }
+    free(contentMetadata);
+
+    for (int i = 0; i < NUM_USERS; i++) {
+        free(engagementMatrix[i]);
+    }
+    free(engagementMatrix);
+
+    return 0;
+}
