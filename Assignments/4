@@ -1,0 +1,65 @@
+#include <stdio.h>
+
+int main() {
+    char *transactions[] = {"eat", "tea", "tan", "ate", "nat", "bat"};
+    int n = sizeof(transactions) / sizeof(transactions[0]);
+    int grouped[100] = {0}; 
+    char groups[100][100][100]; 
+    int group_index = 0;
+    int i, j, k;
+
+    for (i = 0; i < n; i++) {
+        if (grouped[i]) continue; 
+        
+        int transaction_index = 0;
+        for (j = 0; transactions[i][j] != '\0'; j++) {
+            groups[group_index][transaction_index][j] = transactions[i][j];
+        }
+        groups[group_index][transaction_index][n] = '\0';
+        grouped[i] = 1; 
+        transaction_index++;
+
+        for (j = i + 1; j < n; j++) {
+            if (grouped[j]) continue;            
+            int count[26] = {0}; 
+            for (k = 0; transactions[i][k] != '\0'; k++) {
+                count[transactions[i][k] - 'a']++;
+            }
+            for (k = 0; transactions[j][k] != '\0'; k++) {
+                count[transactions[j][k] - 'a']--;
+            }
+
+            int is_anagram = 1;
+            for (k = 0; k < 26; k++) {
+                if (count[k] != 0) {
+                    is_anagram = 0;
+                    break;
+                }
+            }
+
+            if (is_anagram) {
+                for (k = 0; transactions[j][k] != '\0'; k++) {
+                    groups[group_index][transaction_index][k] = transactions[j][k];
+                }
+                groups[group_index][transaction_index][n] = '\0';
+                grouped[j] = 1; 
+                transaction_index++;
+            }
+        }
+
+        group_index++;
+    }
+
+    for (i = 0; i < group_index; i++) {
+        printf("[");
+        for (j = 0; groups[i][j][0] != '\0'; j++) {
+            if (j > 0) printf(", ");
+            for (k = 0; groups[i][j][k] != '\0'; k++) {
+                putchar(groups[i][j][k]);
+            }
+        }
+        printf("]\n");
+    }
+
+    return 0;
+}
