@@ -1,0 +1,36 @@
+#include<stdio.h>
+int main(){
+    char slogans[10][13];
+    int frequency[200]={0};
+    int i=0,x=0,temp=0,num=0;
+    printf("Please enter the number of slogans: ");
+    scanf("%d",&num);
+    
+    for(i=0;i<num;i++){ 
+
+        printf("Please enter slogan number %d: ",i+1);
+        
+        gets(slogans[i]);
+    }
+
+
+    for(i=0;i<num;i++){
+
+        for(x=0;slogans[i][x]!='\0';x++){
+            temp=slogans[i][x];
+            frequency[temp]++;
+        }
+
+        printf("for '%s': {",slogans[i]);
+        for(x=0;x<200;x++){
+            if(frequency[x]>0){
+                printf("'%c': %d, ",x,frequency[x]);
+            }
+        }
+        printf("}\n");
+        for(x=0;x<200;x++){ //reinitializing the frequency array so that it can later be used again
+            frequency[x]=0;
+        }
+    }
+
+}
