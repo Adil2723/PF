@@ -1,0 +1,20 @@
+#include <stdio.h>
+int main() {    
+    int startNum;
+    printf("Enter an odd number to start the pattern: ");    
+    scanf("%d", &startNum);
+   
+    if (startNum % 2 == 0) {    
+    printf("Please enter an odd number.\n");
+        return 1;
+    }
+    int currentNum = startNum;
+    // Generate the pattern     for (int i = 1; currentNum > 0; i++) {
+    for (int j = 0; j < i && currentNum > 0; j++) {  
+    printf("%d ", currentNum);    
+    currentNum -= 2; 
+        }
+        printf("\n");
+    }
+    return 0;
+}
