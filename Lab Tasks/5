@@ -1,0 +1,16 @@
+int main(){
+	float = salary,taxrate,taxamount
+	
+	printf("Enter you salary: ");
+	scanf("%f, &salary");
+	
+	printf("Enter taxrate: ");
+	scanf("%f, &taxrate");
+	
+	taxamount = taxrate/100)*salary
+	
+	printf("Find taxamount is: %f/n taxamount");;
+	scanf("%f/n, %taxamount");
+	
+	return;0
+}
