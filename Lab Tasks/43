@@ -1,0 +1,70 @@
+#include<stdio.h>
+#include<string.h>
+
+struct JobDetails{
+	int EmployeeID;
+	char JobTitle[100];
+	float Salary;
+};
+
+struct PersonalInformation{
+	char name[100];
+	int age;
+	char address [200];
+	struct JobDetails job;
+};
+
+int main(){
+	int n;
+
+	
+	printf("Number of person's details you want:");
+	scanf("%d", &n);
+	
+	struct PersonalInformation person[n];
+	
+	printf("\nPersonal Information\n");
+	getchar();
+	for(int i=0;i<n;i++){
+	
+	printf("Enter your name: ");
+	fgets(person[i].name,sizeof(person[i].name),stdin);
+	person[i].name[strcspn(person[i].name,"\n")] = '\0';
+	
+	printf("Enter your age: ");
+	scanf("%d", &person[i].age);
+	getchar();
+	
+	printf("Please provide your Address: ");
+	fgets(person[i].address,sizeof(person[i].address),stdin);
+	person[i].address[strcspn(person[i].address,"\n")] = '\0';
+	
+	
+	printf("Enter you Employee ID: ");
+	scanf("%d", &person[i].job.EmployeeID);
+	getchar();
+	
+	printf("Enter your Job Title: ");
+	fgets(person[i].job.JobTitle,sizeof(person[i].job.JobTitle),stdin);
+	person[i].job.JobTitle[strcspn(person[i].job.JobTitle,"\n")] = '\0';
+	
+	printf("Enter the amount of Salary you get: ");
+	scanf("%f", &person[i].job.Salary);
+	getchar();
+}
+	
+
+	for(int i=0;i<n;i++){
+	printf("--------------------------------------------------------------\n");
+	printf("\nPersonal And Job Details\n");		
+	printf("--------------------------------------------------------------\n");
+	printf("Name %s\n",person[i].name);
+	printf("Age %d\n", person[i].age);
+	printf("Address %s\n", person[i].address);
+	printf("Job Title %s\n", person[i].job.JobTitle);
+	printf("Employee ID %d\n", person[i].job.EmployeeID);
+	printf("Salary %.2f\n", person[i].job.Salary);
+	printf("--------------------------------------------------------------\n");
+}
+
+}
