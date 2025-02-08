@@ -1,0 +1,19 @@
+int main(){
+	 float = u,a,t,v;
+	
+	printf("Enter Initial Velocity u: ");
+	scanf("%f ; &u")
+	
+	printf("Enter Final Velocity v: ");
+	scanf("%f ; &v")
+	
+	printf("Enter total time t: ");
+	scanf("%f ; &t")
+	
+	v = u + at
+	
+	printf("Acceleration is a : %f\n a");
+	scanf("%f : &a");
+	
+	return 0;
+}
