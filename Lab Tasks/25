@@ -1,0 +1,19 @@
+#include<stdio.h>
+int main(){
+int array[100];
+int i;
+int n;
+
+printf("Enter the number of n:");
+scanf("%d",  &n);
+
+printf("Enter the %d  elements:\n",n);
+for (i = 0; i < n; i++){
+scanf("%d", &array[i]);
+}
+printf("Array in reverse order:\n");
+    for(i = n - 1; i >= 0; i--) {  // Loop starts from last element to first
+        printf("%d ", array[i]);
+    }
+    return 0;
+}
