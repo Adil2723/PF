@@ -1,0 +1,150 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_SUPPLY_NAME_LENGTH 50
+
+void initializeInventory(char ***speciesSupplies, int *numSpecies) {
+    printf("Enter the number of species: ");
+    scanf("%d", numSpecies);
+    *speciesSupplies = (char ***)malloc(*numSpecies * sizeof(char **));
+
+    for (int i = 0; i < *numSpecies; i++) {
+        int numSupplies;
+        printf("Enter the number of supplies for species %d: ", i + 1);
+        scanf("%d", &numSupplies);
+        (*speciesSupplies)[i] = (char **)malloc(numSupplies * sizeof(char *));
+        for (int j = 0; j < numSupplies; j++) {
+            (*speciesSupplies)[i][j] = NULL;
+        }
+    }
+}
+
+void addSupplies(char ***speciesSupplies, int numSpecies) {
+    int speciesIndex, numSupplies;
+    printf("Enter the species index (0-%d): ", numSpecies - 1);
+    scanf("%d", &speciesIndex);
+    
+    if (speciesIndex < 0 || speciesIndex >= numSpecies) {
+        printf("Invalid species index.\n");
+        return;
+    }
+
+    printf("Enter the number of supplies to add for species %d: ", speciesIndex + 1);
+    scanf("%d", &numSupplies);
+
+    (*speciesSupplies)[speciesIndex] = (char **)realloc((*speciesSupplies)[speciesIndex], numSupplies * sizeof(char *));
+    
+    for (int i = 0; i < numSupplies; i++) {
+        (*speciesSupplies)[speciesIndex][i] = (char *)malloc(MAX_SUPPLY_NAME_LENGTH * sizeof(char));
+        printf("Enter supply %d: ", i + 1);
+        scanf(" %49[^\n]", (*speciesSupplies)[speciesIndex][i]);
+    }
+}
+
+void updateSupply(char ***speciesSupplies, int numSpecies) {
+    int speciesIndex, supplyIndex;
+    printf("Enter the species index (0-%d): ", numSpecies - 1);
+    scanf("%d", &speciesIndex);
+
+    if (speciesIndex < 0 || speciesIndex >= numSpecies) {
+        printf("Invalid species index.\n");
+        return;
+    }
+
+    printf("Enter the supply index (0-?): ");
+    scanf("%d", &supplyIndex);
+
+    if (supplyIndex < 0 || (*speciesSupplies)[speciesIndex][supplyIndex] == NULL) {
+        printf("Invalid supply index.\n");
+        return;
+    }
+
+    printf("Enter the new name for supply %d: ", supplyIndex + 1);
+    scanf(" %49[^\n]", (*speciesSupplies)[speciesIndex][supplyIndex]);
+}
+
+void removeSpecies(char ***speciesSupplies, int *numSpecies) {
+    int speciesIndex;
+    printf("Enter the species index to remove (0-%d): ", *numSpecies - 1);
+    scanf("%d", &speciesIndex);
+
+    if (speciesIndex < 0 || speciesIndex >= *numSpecies) {
+        printf("Invalid species index.\n");
+        return;
+    }
+
+    free((*speciesSupplies)[speciesIndex]);
+
+    for (int i = speciesIndex; i < *numSpecies - 1; i++) {
+        (*speciesSupplies)[i] = (*speciesSupplies)[i + 1];
+    }
+
+    *speciesSupplies = (char ***)realloc(*speciesSupplies, (*numSpecies - 1) * sizeof(char **));
+    (*numSpecies)--;
+}
+
+void displayInventory(char ***speciesSupplies, int numSpecies) {
+    printf("\nCurrent Inventory:\n");
+
+    for (int i = 0; i < numSpecies; i++) {
+        printf("\nSpecies %d:\n", i + 1);
+        
+        for (int j = 0; (*speciesSupplies)[i][j] != NULL; j++) {
+            printf("  %d. %s\n", j + 1, (*speciesSupplies)[i][j]);
+        }
+    }
+}
+
+void freeInventory(char ***speciesSupplies, int numSpecies) {
+    for (int i = 0; i < numSpecies; i++) {
+        for (int j = 0; (*speciesSupplies)[i][j] != NULL; j++) {
+            free((*speciesSupplies)[i][j]);
+        }
+        free((*speciesSupplies)[i]);
+    }
+    free(*speciesSupplies);
+}
+
+int main() {
+    char ***speciesSupplies = NULL;
+    int numSpecies = 0;
+    int choice;
+
+    initializeInventory(&speciesSupplies, &numSpecies);
+
+    do {
+        printf("\nPets in Heart Inventory System\n");
+        printf("1. Add Supplies\n");
+        printf("2. Update Supply\n");
+        printf("3. Remove Species\n");
+        printf("4. Display Inventory\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addSupplies(&speciesSupplies, numSpecies);
+                break;
+            case 2:
+                updateSupply(&speciesSupplies, numSpecies);
+                break;
+            case 3:
+                removeSpecies(&speciesSupplies, &numSpecies);
+                break;
+            case 4:
+                displayInventory(&speciesSupplies, numSpecies);
+                break;
+            case 5:
+                printf("Exiting...\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 5);
+
+    freeInventory(&speciesSupplies, numSpecies);
+
+    return 0;
+}
