@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+ int main() {
+int a = 10;
+int *p;
+p = &a;
+int** y;
+y= &p;
+printf("Value of a: %d\n", a);
+printf("Address of a: %d\n", &a);
+printf("Value of p (Address stored in pointer):%d\n", p);
+printf("Value pointed to by p: %d\n", *p);
+printf("Value of y (Address stored in pointer):%p\n", y);
+printf("Value pointed to by p: %d\n", **y);
+
+ return 0;
+ }
