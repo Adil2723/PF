@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_WORDS 5
+#define MAX_LENGTH 20
+
+int isPalindrome(char str[]) {
+    int len = strlen(str);
+    for (int i = 0; i < len / 2; i++) {
+        if (str[i] != str[len - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char words[5][21] = {
+        "madam",
+        "hello",
+        "racecar",
+        "world",
+        "level"
+    };
+
+    for (int i = 0; i < 5; i++) {
+        if (isPalindrome(words[i])) {
+            printf("Word is Palindrome\n");
+        } else {
+            printf("Word is Not Palindrome\n");
+        }
+    }
+
+    return 0;
+}
