@@ -1,0 +1,34 @@
+#include<stdio.h>
+int main(){
+float assignmentScore, examScore, attendance;
+char finalGrade;
+
+printf("Enter assignmentScore: ");
+scanf("%f", & assignmentScore);
+ 
+printf("Enter examScore: ");
+scanf("%f", & examScore);
+
+printf("Enter attendance  percentage;");
+scanf("%f", & attendance);
+
+if (attendance >= 75) {
+        if (assignmentScore >= 50) {
+            if (examScore >= 50) {
+                finalGrade = 'A';
+            } else {
+                finalGrade = 'B';
+            }
+        } else {
+            if (examScore >= 50) {
+                finalGrade = 'C';
+            } else {
+                finalGrade = 'D';
+            }
+        }
+    } else {
+        finalGrade = 'F';  
+    }
+printf("Final Garde is %c\n", finalGrade);
+ return 0;
+ }
