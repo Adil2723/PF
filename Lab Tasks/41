@@ -1,0 +1,57 @@
+#include <stdio.h>
+
+int main() {
+    int row, col;
+    int sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0;
+
+    printf("Enter the number of rows: ");
+    scanf("%d", &row);
+    printf("Enter the number of columns: ");
+    scanf("%d", &col);
+
+    int array[row][col];
+
+    // Input values for the array
+    printf("Enter the values of the array:\n");
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            scanf("%d", &array[i][j]);
+        }
+    }
+
+    // Print the values of the array
+    printf("The values of the array are:\n");
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            printf("%d ", array[i][j]);
+        }
+        printf("\n");
+    }
+
+    // Sum the borders including corners
+    // Top row (all elements of the top row)
+    for (int i = 0; i < col; i++) {
+        sum1 += array[0][i];  // top row
+    }
+
+    // Bottom row (all elements of the bottom row)
+    for (int i = 0; i < col; i++) {
+        sum2 += array[row - 1][i];  // bottom row
+    }
+
+    // Left column (excluding the corners already included in the top and bottom rows)
+    for (int i = 1; i <= row - 1; i++) {
+        sum3 += array[i][0];  // left column (excluding corners)
+    }
+
+    // Right column (excluding the corners already included in the top and bottom rows)
+    for (int i = 1; i <= row - 1; i++) {
+        sum4 += array[i][col - 1];  // right column (excluding corners)
+    }
+
+    // Total sum of the borders including corners
+    int sum = sum1 + sum2 + sum3 + sum4;
+    printf("The sum of the borders of the array is: %d\n", sum);
+
+    return 0;
+}
