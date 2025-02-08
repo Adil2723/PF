@@ -1,0 +1,165 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_NAME_LENGTH 100
+
+struct WeatherForecast {
+    float temperature;
+    float rainfall;
+    float windSpeed;
+};
+
+struct Equipment {
+    char name[MAX_NAME_LENGTH];
+    int operationalStatus;
+    float fuelLevel;
+    char activitySchedule[MAX_NAME_LENGTH];
+};
+
+struct Sensor {
+    char sensorType[MAX_NAME_LENGTH];
+    float nutrientLevel;
+    float pHLevel;
+    int pestActivity;
+};
+
+struct Crop {
+    char cropType[MAX_NAME_LENGTH];
+    char growthStage[MAX_NAME_LENGTH];
+    float expectedYield;
+    struct WeatherForecast* weather;
+};
+
+struct Field {
+    float latitude;
+    float longitude;
+    float soilHealth;
+    float moistureLevel;
+    struct Crop** crops;
+    int numCrops;
+    struct Equipment** equipment;
+    int numEquipment;
+    struct Sensor** sensors;
+    int numSensors;
+};
+
+struct RegionalHub {
+    char hubName[MAX_NAME_LENGTH];
+    struct Field** fields;
+    int numFields;
+    float totalYieldPrediction;
+};
+
+struct WeatherForecast* initializeWeather(float temperature, float rainfall, float windSpeed) {
+    struct WeatherForecast* forecast = (struct WeatherForecast*)malloc(sizeof(struct WeatherForecast));
+    forecast->temperature = temperature;
+    forecast->rainfall = rainfall;
+    forecast->windSpeed = windSpeed;
+    return forecast;
+}
+
+struct Crop* initializeCrop(const char* cropType, const char* growthStage, float expectedYield, struct WeatherForecast* forecast) {
+    struct Crop* crop = (struct Crop*)malloc(sizeof(struct Crop));
+    strncpy(crop->cropType, cropType, MAX_NAME_LENGTH);
+    strncpy(crop->growthStage, growthStage, MAX_NAME_LENGTH);
+    crop->expectedYield = expectedYield;
+    crop->weather = forecast;
+    return crop;
+}
+
+struct Equipment* initializeEquipment(const char* name, int operationalStatus, float fuelLevel, const char* activitySchedule) {
+    struct Equipment* eq = (struct Equipment*)malloc(sizeof(struct Equipment));
+    strncpy(eq->name, name, MAX_NAME_LENGTH);
+    eq->operationalStatus = operationalStatus;
+    eq->fuelLevel = fuelLevel;
+    strncpy(eq->activitySchedule, activitySchedule, MAX_NAME_LENGTH);
+    return eq;
+}
+
+struct Sensor* initializeSensor(const char* sensorType, float nutrientLevel, float pHLevel, int pestActivity) {
+    struct Sensor* sensor = (struct Sensor*)malloc(sizeof(struct Sensor));
+    strncpy(sensor->sensorType, sensorType, MAX_NAME_LENGTH);
+    sensor->nutrientLevel = nutrientLevel;
+    sensor->pHLevel = pHLevel;
+    sensor->pestActivity = pestActivity;
+    return sensor;
+}
+
+struct Field* initializeField(float latitude, float longitude, float soilHealth, float moistureLevel) {
+    struct Field* field = (struct Field*)malloc(sizeof(struct Field));
+    field->latitude = latitude;
+    field->longitude = longitude;
+    field->soilHealth = soilHealth;
+    field->moistureLevel = moistureLevel;
+    field->crops = NULL;
+    field->numCrops = 0;
+    field->equipment = NULL;
+    field->numEquipment = 0;
+    field->sensors = NULL;
+    field->numSensors = 0;
+    return field;
+}
+
+void addCropToField(struct Field* field, struct Crop* crop) {
+    field->numCrops++;
+    field->crops = (struct Crop**)realloc(field->crops, field->numCrops * sizeof(struct Crop*));
+    field->crops[field->numCrops - 1] = crop;
+}
+
+void addEquipmentToField(struct Field* field, struct Equipment* eq) {
+    field->numEquipment++;
+    field->equipment = (struct Equipment**)realloc(field->equipment, field->numEquipment * sizeof(struct Equipment*));
+    field->equipment[field->numEquipment - 1] = eq;
+}
+
+void addSensorToField(struct Field* field, struct Sensor* sensor) {
+    field->numSensors++;
+    field->sensors = (struct Sensor**)realloc(field->sensors, field->numSensors * sizeof(struct Sensor*));
+    field->sensors[field->numSensors - 1] = sensor;
+}
+
+struct RegionalHub* initializeRegionalHub(const char* hubName) {
+    struct RegionalHub* hub = (struct RegionalHub*)malloc(sizeof(struct RegionalHub));
+    strncpy(hub->hubName, hubName, MAX_NAME_LENGTH);
+    hub->fields = NULL;
+    hub->numFields = 0;
+    hub->totalYieldPrediction = 0.0f;
+    return hub;
+}
+
+void addFieldToRegionalHub(struct RegionalHub* hub, struct Field* field) {
+    hub->numFields++;
+    hub->fields = (struct Field**)realloc(hub->fields, hub->numFields * sizeof(struct Field*));
+    hub->fields[hub->numFields - 1] = field;
+}
+
+int main() {
+    struct Field* field1 = initializeField(34.0522, -118.2437, 85.0, 35.5);
+    struct WeatherForecast* forecast1 = initializeWeather(25.0, 5.0, 2.5);
+    struct Crop* crop1 = initializeCrop("Corn", "Vegetative", 1500.0, forecast1);
+    addCropToField(field1, crop1);
+    struct Equipment* eq1 = initializeEquipment("Tractor", 1, 75.0, "Daily at 6 AM");
+    addEquipmentToField(field1, eq1);
+    struct Sensor* sensor1 = initializeSensor("Soil Nutrient", 45.0, 6.5, 3);
+    addSensorToField(field1, sensor1);
+    struct RegionalHub* hub1 = initializeRegionalHub("West Valley Hub");
+    addFieldToRegionalHub(hub1, field1);
+    
+    printf("Regional Hub: %s\n", hub1->hubName);
+    printf("Field at Latitude: %.4f, Longitude: %.4f\n", field1->latitude, field1->longitude);
+    printf("Crop: %s, Growth Stage: %s, Expected Yield: %.2f kg/ha\n", crop1->cropType, crop1->growthStage, crop1->expectedYield);
+
+    free(sensor1);
+    free(eq1);
+    free(crop1);
+    free(forecast1);
+    free(field1->crops);
+    free(field1->equipment);
+    free(field1->sensors);
+    free(field1);
+    free(hub1->fields);
+    free(hub1);
+
+    return 0;
+}
