@@ -1,0 +1,41 @@
+#include <stdio.h>
+int main() {     
+int matrix[3][3]; 
+int saddlePointExists = 0;
+   
+    printf("Enter the elements of a 3x3 matrix:\n");
+    for (int row = 0; row <3; row++) {    
+    for (int col = 0; col < 3; col++) {  
+    scanf("%d", &matrix[row][col]);
+        }
+    }
+    
+    for (int row = 0; row < 3; row++) {    
+    int minInRow = matrix[row][0];    
+    int colIndexOfMin = 0;
+     
+        for (int col = 1; col < 3; col++) { 
+        if (matrix[row][col] < minInRow) {  
+        minInRow = matrix[row][col];   
+        colIndexOfMin = col;
+            }
+        }
+    
+        int isMaxInCol = 1;   
+        for (int rowCheck = 0; rowCheck < 3; rowCheck++) {   
+        if (matrix[rowCheck][colIndexOfMin] > minInRow) {
+                isMaxInCol = 0;           
+                break;
+            }
+        }
+    
+        if (isMaxInCol) {          
+        printf("Saddle point found at (%d, %d) with value %d\n", row, colIndexOfMin, minInRow);     
+        saddlePointExists = 1;
+        }
+    }
+    if (!saddlePointExists) {     
+    printf("No saddle point found in the matrix.\n");
+    }
+    return 0;
+}
