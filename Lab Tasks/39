@@ -1,0 +1,26 @@
+#include<stdio.h>
+#define converter 0.001
+
+void meter_km(double meters){
+	static int count = 0;
+	count++;
+	printf("The Number of times a function is called %d\n", count);
+}
+int main(){
+	double meters;
+	char choice;
+	
+	do{
+	
+	printf("Enter the measurements\n");
+	scanf("%lf", &meters);
+	
+	double km = meters*converter;
+	
+	printf("The measurements in KM %lf\n", km,meters);
+	meter_km(meters);
+	
+	printf("Do you want to enter more mesurements?\n");
+	scanf(" %c", &choice);
+} while (choice == 'y' || choice == 'Y');
+}
