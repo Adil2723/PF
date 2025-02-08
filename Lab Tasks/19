@@ -1,0 +1,36 @@
+#include<stdio.h>
+int main(){
+int num, i, isPrime = 1;
+       printf("Enter a number: ");
+       scanf("%d", &num);
+
+if (num < 2){
+    isPrime = 0;
+ }else{
+    for(i = 2; i*i <= num; i++){
+    if(num%i == 0){
+    isPrime= 0;
+    break;
+    }
+  }  
+}    
+if (isPrime == 1){
+printf("Is a Prime number %d\n", num);
+
+int a = 0, b = 1, next = 0;
+printf("Fibonacci Series: %d %d", a, b);
+next = a+b;
+
+while (next <= num){
+        printf(" %d", next);
+            a = b;
+            b = next;
+            next = a + b;
+            }
+            printf("%d\n");
+            
+         } else {
+         printf("Not a Prime number %d\n", num);
+}
+return 0;
+}
