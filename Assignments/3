@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <string.h>
+
+void remove_duplicates(char str[]) {
+    int j = 0;
+    int i;
+    for (i = 1; str[i] != '\0'; i++) {
+        if (str[i] != str[j]) {
+            str[++j] = str[i];
+        }
+    }
+    str[++j] = '\0';
+}
+
+int main() {
+    int num, i;
+    char words[20][20];
+
+    printf("How many words do you have?\n");
+    scanf("%d", &num);
+
+    for (i = 0; i < num; i++) {
+        printf("Please enter word number %d: ", i + 1);
+        scanf("%s", words[i]);
+        remove_duplicates(words[i]);
+    }
+
+    printf("Reduced words:\n");
+    for (i = 0; i < num; i++) {
+        printf("%s\n", words[i]);
+    }
+}
